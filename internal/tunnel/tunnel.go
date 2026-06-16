@@ -31,7 +31,7 @@ type Desc struct {
 	Host          string      `toml:"host" json:"host"`
 	User          string      `toml:"user" json:"user"`
 	IdentityFile  string      `toml:"identity" json:"identity"`
-	Port          int         `toml:"port" json:"port"`
+	Port          StringOrInt `toml:"port" json:"port"`
 	KeepAlive     *int        `toml:"keep_alive" json:"keep_alive"`
 	Group         string      `toml:"group" json:"group"`
 	Mode          Mode        `toml:"mode" json:"mode"`
@@ -104,8 +104,10 @@ func (t *Tunnel) prepare() error {
 	if t.User != "" {
 		sc.User = t.User
 	}
-	if t.Port != 0 {
-		sc.Port = t.Port
+	if t.Port != "" {
+		if sc.Port, err = strconv.Atoi(t.Port.String()); err != nil {
+			return fmt.Errorf("invalid port %q", t.Port)
+		}
 	}
 	if t.IdentityFile != "" {
 		sc.IdentityFiles = []string{t.IdentityFile}

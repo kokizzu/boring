@@ -35,6 +35,7 @@ func TestExpandEnvVars(t *testing.T) {
 	t.Setenv("TEST_HOST", "example.com")
 	t.Setenv("TEST_USER", "alice")
 	t.Setenv("TEST_IDENTITY", "/keys/id_ed25519")
+	t.Setenv("TEST_PORT", "2222")
 	t.Setenv("TEST_LOCAL", "9000")
 	t.Setenv("TEST_REMOTE", "localhost:8080")
 
@@ -49,6 +50,9 @@ func TestExpandEnvVars(t *testing.T) {
 	}
 	if tun.IdentityFile != "/keys/id_ed25519" {
 		t.Errorf("IdentityFile = %q, want %q", tun.IdentityFile, "/keys/id_ed25519")
+	}
+	if tun.Port.String() != "2222" {
+		t.Errorf("Port = %q, want %q", tun.Port.String(), "2222")
 	}
 	if tun.LocalAddress.String() != "9000" {
 		t.Errorf("LocalAddress = %q, want %q", tun.LocalAddress.String(), "9000")

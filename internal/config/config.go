@@ -76,6 +76,7 @@ func Load() (*Config, error) {
 		t.Host = expand(t.Host)
 		t.User = expand(t.User)
 		t.IdentityFile = expand(t.IdentityFile)
+		t.Port = tunnel.StringOrInt(expand(t.Port.String()))
 		t.LocalAddress = tunnel.StringOrInt(expand(t.LocalAddress.String()))
 		t.RemoteAddress = tunnel.StringOrInt(expand(t.RemoteAddress.String()))
 	}

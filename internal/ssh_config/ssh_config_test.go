@@ -125,3 +125,23 @@ func TestLoadIdentityMissing(t *testing.T) {
 		t.Fatalf("expected failure, got s=%v fp=%q ok=%v", s, fp, ok)
 	}
 }
+
+// When no Port is specified in the SSH config, the default of 22 must be used.
+func TestParseSSHConfigDefaultPort(t *testing.T) {
+	cfg := filepath.Join(t.TempDir(), "config")
+	if err := os.WriteFile(cfg, []byte("Host myhost\n\tHostName example.com\n\tUser bob\n"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+
+	old := overrideConfig
+	overrideConfig = cfg
+	t.Cleanup(func() { overrideConfig = old })
+
+	sc, err := ParseSSHConfig("myhost", "bob")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if sc.Port != 22 {
+		t.Errorf("Port = %d, want 22", sc.Port)
+	}
+}
