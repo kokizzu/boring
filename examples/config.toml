@@ -49,3 +49,13 @@ name = "dev-rev-prox"
 remote = "9000"
 host = "dev-server"
 mode = "socks-remote"
+
+# environment variables are substituted in host, user, identity,
+# port, local and remote; ${VAR:-default} falls back when VAR is
+# unset or empty
+[[tunnels]]
+name = "staging"
+local = "8080"
+remote = "localhost:8080"
+host = "${STAGING_HOST}"
+user = "${SSH_USER:-admin}"

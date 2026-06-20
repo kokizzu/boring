@@ -62,3 +62,10 @@ name = "test-bad-fwd-config"
 host = "127.0.0.1"
 local = "49711"
 remote = "49712"
+
+[[tunnels]]
+name = "test-bad-port"
+host = "127.0.0.1"
+port = "notaport"
+local = "localhost:49711"
+remote = "localhost:49712"
